@@ -1,27 +1,103 @@
-#include "lvgl/lvgl.h"
-#include "lv_drivers/display/fbdev.h"
-#include "lv_drivers/indev/evdev.h"
-#include <unistd.h>
-#include <pthread.h>
-#include <time.h>
-#include <sys/time.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <gui_guider.h>
-#include <pthread.h>
-
-#include "../custom/sensor/sht30.c"
-#include "../custom/demo/led_change.c"
-
-
-#define DISP_BUF_SIZE (1024 * 1024)
+#include <hub_screen.h>
 
 lv_style_t  style;
 lv_ui guider_ui;
+std::queue<Event> eventQueue;
+std::mutex mtx;
+std::condition_variable cv;
+pthread_t hub_screen_thread;
+HubScreen_t hub_screen(DEVICE_NAME);
+
+/*push data to queue*/
+void event_handle(const struct mosquitto_message *message){
+    // if(hub_screen.buffer.cotroller() == Hub) {
+    //     eventQueue.push(Event(Event::SyncDeivce, message->topic, hub_screen.buffer));
+    // }
+    // else if(hub_screen.buffer.cotroller() == Screen){
+    //     if(hub_screen.buffer.has_time()){
+    //         eventQueue.push(Event(Event::SyncTimer, message->topic, hub_screen.buffer));
+    //     }
+    //     else {
+    //         eventQueue.push(Event(Event::StatusDeivce, message->topic, hub_screen.buffer));
+    //     }
+    // }
+    eventQueue.push(Event(Event::SyncDeivce, message->topic, hub_screen.buffer));
+}
+
+/*push data to queue*/
+void logic_control(std::vector<uint8_t> buff_vec, const struct mosquitto_message *message){
+    if (!hub_screen.buffer.ParseFromArray(buff_vec.data(), buff_vec.size())) {
+        eventQueue.push(Event(Event::ErrParse, message->topic, hub_screen.buffer));
+    }else {
+        if (hub_screen.buffer.receiver() == Server){
+            event_handle(message);
+        }
+        else {
+            eventQueue.push(Event(Event::ErrFormat, message->topic, hub_screen.buffer));
+        }
+    }
+}
+
+void* system_intergration(void* arg) {
+
+    while (1) {
+        // get data from queue
+        std::unique_lock<std::mutex> lock(mtx);
+        cv.wait(lock, []{ return !eventQueue.empty(); });
+        Event event = eventQueue.front();
+        eventQueue.pop();
+        lock.unlock();
+        // handle data
+        switch (event.type) {
+            case Event::ErrFormat: {
+                LOG_ERR("====Error format====");
+                break;
+            }
+            case Event::ErrParse: {
+                LOG_ERR("====Error parse====");
+                break;
+            }
+            case Event::SyncDeivce: {
+                LOG_INFO("====Sync device====");
+                
+                sync_devices(event.buffer);
+                break;
+            }
+            case Event::SyncTimer: {
+                LOG_INFO("====Sync device====");
+
+                sync_timer(event.buffer);
+                break;
+            }
+            case Event::StatusDeivce: {
+                LOG_INFO("====Status device====");
+                break;
+            }
+            case Event::ControlDevice: {
+                LOG_INFO("====Control device====");
+                break;
+            }
+            default:
+                break;
+        }
+    }
+    return NULL;
+}
+
+void mqtt_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message) {
+    std::lock_guard<std::mutex> lock(mtx);
+
+    LOG_INFO("<-- " << message->topic << " : " << message->payload);
+    std::vector<uint8_t> vec_data((const uint8_t *)message->payload, (const uint8_t *)message->payload + message->payloadlen);
+    logic_control(vec_data, message);
+    
+    cv.notify_one();
+}
+
 
 int main(int argc, char *argv[])
 {
-    int hor_res = 800;
+    int hor_res = 1024;
     int ver_res = 600;
 
     if (argc >= 3)
@@ -36,14 +112,18 @@ int main(int argc, char *argv[])
                argv[0], argv[0]);
     }
 
+    /*Configuration mqtt*/ 
+    __test_mqtt();
+    hub_screen.transport.set_callback(mqtt_callback);
+    hub_screen.transport.setup(BROKER, PORT, 45);
+    hub_screen.transport.subscribe(SUB , 1);
+    hub_screen.transport.connect();
+
     /*LittlevGL init*/
     lv_init();
 
     /*Linux frame buffer device init*/
     fbdev_init();
-
-    // Touch pointer device init
-	evdev_init();
 
     /*A small buffer for LittlevGL to draw the screen's content*/
     static lv_color_t buf[DISP_BUF_SIZE];
@@ -74,34 +154,19 @@ int main(int argc, char *argv[])
     }
 
     //app
-
     ui_init_style(&style);
     init_scr_del_flag(&guider_ui);
     setup_ui(&guider_ui);
-
-    // Create a new thread for sensor reading
-    pthread_t thread_id;
-    if (pthread_create(&thread_id, NULL, sensor_thread, (void*)&guider_ui) != 0) {
-        fprintf(stderr, "Failed to create sensor thread.\n");
-        return 1;
+    if (pthread_create(&hub_screen_thread, NULL, system_intergration, NULL)) {
+        perror("Error creating thread");
+        return -1;
     }
-
-    pthread_t thread_id_led;
-    if (pthread_create(&thread_id_led, NULL, led_change_st, (void*)&guider_ui) != 0) {
-        fprintf(stderr, "Failed to create sensor thread.\n");
-        return 1;
-    }
-
     /*Handle LitlevGL tasks (tickless mode)*/
     while (1)
     {
         lv_task_handler();
         usleep(5000);
     }
-
-    // Join the thread before exiting (if needed)
-    // pthread_join(thread_id, NULL);
-
 
     return 0;
 }
