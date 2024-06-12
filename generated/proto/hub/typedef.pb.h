@@ -60,6 +60,9 @@ extern Ota_tDefaultTypeInternal _Ota_t_default_instance_;
 class Sw_t;
 struct Sw_tDefaultTypeInternal;
 extern Sw_tDefaultTypeInternal _Sw_t_default_instance_;
+class Sync_t;
+struct Sync_tDefaultTypeInternal;
+extern Sync_tDefaultTypeInternal _Sync_t_default_instance_;
 class Timer_t;
 struct Timer_tDefaultTypeInternal;
 extern Timer_tDefaultTypeInternal _Timer_t_default_instance_;
@@ -75,6 +78,7 @@ template<> ::KeepAlive_t* Arena::CreateMaybeMessage<::KeepAlive_t>(Arena*);
 template<> ::Led_t* Arena::CreateMaybeMessage<::Led_t>(Arena*);
 template<> ::Ota_t* Arena::CreateMaybeMessage<::Ota_t>(Arena*);
 template<> ::Sw_t* Arena::CreateMaybeMessage<::Sw_t>(Arena*);
+template<> ::Sync_t* Arena::CreateMaybeMessage<::Sync_t>(Arena*);
 template<> ::Timer_t* Arena::CreateMaybeMessage<::Timer_t>(Arena*);
 template<> ::Vendor_t* Arena::CreateMaybeMessage<::Vendor_t>(Arena*);
 template<> ::Vpn_t* Arena::CreateMaybeMessage<::Vpn_t>(Arena*);
@@ -300,6 +304,176 @@ class Led_t final :
 };
 // -------------------------------------------------------------------
 
+class Sync_t final :
+    public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Sync_t) */ {
+ public:
+  inline Sync_t() : Sync_t(nullptr) {}
+  ~Sync_t() override;
+  explicit PROTOBUF_CONSTEXPR Sync_t(::PROTOBUF_NAMESPACE_ID::internal::ConstantInitialized);
+
+  Sync_t(const Sync_t& from);
+  Sync_t(Sync_t&& from) noexcept
+    : Sync_t() {
+    *this = ::std::move(from);
+  }
+
+  inline Sync_t& operator=(const Sync_t& from) {
+    CopyFrom(from);
+    return *this;
+  }
+  inline Sync_t& operator=(Sync_t&& from) noexcept {
+    if (this == &from) return *this;
+    if (GetOwningArena() == from.GetOwningArena()
+  #ifdef PROTOBUF_FORCE_COPY_IN_MOVE
+        && GetOwningArena() != nullptr
+  #endif  // !PROTOBUF_FORCE_COPY_IN_MOVE
+    ) {
+      InternalSwap(&from);
+    } else {
+      CopyFrom(from);
+    }
+    return *this;
+  }
+
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* descriptor() {
+    return GetDescriptor();
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Descriptor* GetDescriptor() {
+    return default_instance().GetMetadata().descriptor;
+  }
+  static const ::PROTOBUF_NAMESPACE_ID::Reflection* GetReflection() {
+    return default_instance().GetMetadata().reflection;
+  }
+  static const Sync_t& default_instance() {
+    return *internal_default_instance();
+  }
+  static inline const Sync_t* internal_default_instance() {
+    return reinterpret_cast<const Sync_t*>(
+               &_Sync_t_default_instance_);
+  }
+  static constexpr int kIndexInFileMessages =
+    1;
+
+  friend void swap(Sync_t& a, Sync_t& b) {
+    a.Swap(&b);
+  }
+  inline void Swap(Sync_t* other) {
+    if (other == this) return;
+  #ifdef PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() != nullptr &&
+        GetOwningArena() == other->GetOwningArena()) {
+   #else  // PROTOBUF_FORCE_COPY_IN_SWAP
+    if (GetOwningArena() == other->GetOwningArena()) {
+  #endif  // !PROTOBUF_FORCE_COPY_IN_SWAP
+      InternalSwap(other);
+    } else {
+      ::PROTOBUF_NAMESPACE_ID::internal::GenericSwap(this, other);
+    }
+  }
+  void UnsafeArenaSwap(Sync_t* other) {
+    if (other == this) return;
+    GOOGLE_DCHECK(GetOwningArena() == other->GetOwningArena());
+    InternalSwap(other);
+  }
+
+  // implements Message ----------------------------------------------
+
+  Sync_t* New(::PROTOBUF_NAMESPACE_ID::Arena* arena = nullptr) const final {
+    return CreateMaybeMessage<Sync_t>(arena);
+  }
+  using ::PROTOBUF_NAMESPACE_ID::Message::CopyFrom;
+  void CopyFrom(const Sync_t& from);
+  using ::PROTOBUF_NAMESPACE_ID::Message::MergeFrom;
+  void MergeFrom( const Sync_t& from) {
+    Sync_t::MergeImpl(*this, from);
+  }
+  private:
+  static void MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg);
+  public:
+  PROTOBUF_ATTRIBUTE_REINITIALIZES void Clear() final;
+  bool IsInitialized() const final;
+
+  size_t ByteSizeLong() const final;
+  const char* _InternalParse(const char* ptr, ::PROTOBUF_NAMESPACE_ID::internal::ParseContext* ctx) final;
+  uint8_t* _InternalSerialize(
+      uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const final;
+  int GetCachedSize() const final { return _impl_._cached_size_.Get(); }
+
+  private:
+  void SharedCtor(::PROTOBUF_NAMESPACE_ID::Arena* arena, bool is_message_owned);
+  void SharedDtor();
+  void SetCachedSize(int size) const final;
+  void InternalSwap(Sync_t* other);
+
+  private:
+  friend class ::PROTOBUF_NAMESPACE_ID::internal::AnyMetadata;
+  static ::PROTOBUF_NAMESPACE_ID::StringPiece FullMessageName() {
+    return "Sync_t";
+  }
+  protected:
+  explicit Sync_t(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                       bool is_message_owned = false);
+  public:
+
+  static const ClassData _class_data_;
+  const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*GetClassData() const final;
+
+  ::PROTOBUF_NAMESPACE_ID::Metadata GetMetadata() const final;
+
+  // nested types ----------------------------------------------------
+
+  // accessors -------------------------------------------------------
+
+  enum : int {
+    kAddFieldNumber = 16,
+    kRemoveFieldNumber = 17,
+    kSyncFieldNumber = 18,
+  };
+  // bool add = 16;
+  void clear_add();
+  bool add() const;
+  void set_add(bool value);
+  private:
+  bool _internal_add() const;
+  void _internal_set_add(bool value);
+  public:
+
+  // bool remove = 17;
+  void clear_remove();
+  bool remove() const;
+  void set_remove(bool value);
+  private:
+  bool _internal_remove() const;
+  void _internal_set_remove(bool value);
+  public:
+
+  // bool sync = 18;
+  void clear_sync();
+  bool sync() const;
+  void set_sync(bool value);
+  private:
+  bool _internal_sync() const;
+  void _internal_set_sync(bool value);
+  public:
+
+  // @@protoc_insertion_point(class_scope:Sync_t)
+ private:
+  class _Internal;
+
+  template <typename T> friend class ::PROTOBUF_NAMESPACE_ID::Arena::InternalHelper;
+  typedef void InternalArenaConstructable_;
+  typedef void DestructorSkippable_;
+  struct Impl_ {
+    bool add_;
+    bool remove_;
+    bool sync_;
+    mutable ::PROTOBUF_NAMESPACE_ID::internal::CachedSize _cached_size_;
+  };
+  union { Impl_ _impl_; };
+  friend struct ::TableStruct_typedef_2eproto;
+};
+// -------------------------------------------------------------------
+
 class Sw_t final :
     public ::PROTOBUF_NAMESPACE_ID::Message /* @@protoc_insertion_point(class_definition:Sw_t) */ {
  public:
@@ -348,7 +522,7 @@ class Sw_t final :
                &_Sw_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    1;
+    2;
 
   friend void swap(Sw_t& a, Sw_t& b) {
     a.Swap(&b);
@@ -534,7 +708,7 @@ class Ota_t final :
                &_Ota_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    2;
+    3;
 
   friend void swap(Ota_t& a, Ota_t& b) {
     a.Swap(&b);
@@ -704,7 +878,7 @@ class KeepAlive_t final :
                &_KeepAlive_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    3;
+    4;
 
   friend void swap(KeepAlive_t& a, KeepAlive_t& b) {
     a.Swap(&b);
@@ -852,7 +1026,7 @@ class Timer_t final :
                &_Timer_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    4;
+    5;
 
   friend void swap(Timer_t& a, Timer_t& b) {
     a.Swap(&b);
@@ -1033,7 +1207,7 @@ class Buffer final :
                &_Buffer_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    5;
+    6;
 
   friend void swap(Buffer& a, Buffer& b) {
     a.Swap(&b);
@@ -1109,6 +1283,7 @@ class Buffer final :
     kLedFieldNumber = 18,
     kSwFieldNumber = 19,
     kMacHubFieldNumber = 1,
+    kSyncFieldNumber = 5,
     kOtaFieldNumber = 16,
     kVpnFieldNumber = 17,
     kTimeFieldNumber = 20,
@@ -1165,6 +1340,24 @@ class Buffer final :
   inline PROTOBUF_ALWAYS_INLINE void _internal_set_mac_hub(const std::string& value);
   std::string* _internal_mutable_mac_hub();
   public:
+
+  // .Sync_t sync = 5;
+  bool has_sync() const;
+  private:
+  bool _internal_has_sync() const;
+  public:
+  void clear_sync();
+  const ::Sync_t& sync() const;
+  PROTOBUF_NODISCARD ::Sync_t* release_sync();
+  ::Sync_t* mutable_sync();
+  void set_allocated_sync(::Sync_t* sync);
+  private:
+  const ::Sync_t& _internal_sync() const;
+  ::Sync_t* _internal_mutable_sync();
+  public:
+  void unsafe_arena_set_allocated_sync(
+      ::Sync_t* sync);
+  ::Sync_t* unsafe_arena_release_sync();
 
   // .Ota_t ota = 16;
   bool has_ota() const;
@@ -1258,6 +1451,7 @@ class Buffer final :
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Led_t > led_;
     ::PROTOBUF_NAMESPACE_ID::RepeatedPtrField< ::Sw_t > sw_;
     ::PROTOBUF_NAMESPACE_ID::internal::ArenaStringPtr mac_hub_;
+    ::Sync_t* sync_;
     ::Ota_t* ota_;
     ::Vpn_t* vpn_;
     ::Timer_t* time_;
@@ -1319,7 +1513,7 @@ class Vpn_t final :
                &_Vpn_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    6;
+    7;
 
   friend void swap(Vpn_t& a, Vpn_t& b) {
     a.Swap(&b);
@@ -1483,7 +1677,7 @@ class Vendor_t final :
                &_Vendor_t_default_instance_);
   }
   static constexpr int kIndexInFileMessages =
-    7;
+    8;
 
   friend void swap(Vendor_t& a, Vendor_t& b) {
     a.Swap(&b);
@@ -1732,6 +1926,70 @@ inline void Led_t::_internal_set_status(bool value) {
 inline void Led_t::set_status(bool value) {
   _internal_set_status(value);
   // @@protoc_insertion_point(field_set:Led_t.status)
+}
+
+// -------------------------------------------------------------------
+
+// Sync_t
+
+// bool add = 16;
+inline void Sync_t::clear_add() {
+  _impl_.add_ = false;
+}
+inline bool Sync_t::_internal_add() const {
+  return _impl_.add_;
+}
+inline bool Sync_t::add() const {
+  // @@protoc_insertion_point(field_get:Sync_t.add)
+  return _internal_add();
+}
+inline void Sync_t::_internal_set_add(bool value) {
+  
+  _impl_.add_ = value;
+}
+inline void Sync_t::set_add(bool value) {
+  _internal_set_add(value);
+  // @@protoc_insertion_point(field_set:Sync_t.add)
+}
+
+// bool remove = 17;
+inline void Sync_t::clear_remove() {
+  _impl_.remove_ = false;
+}
+inline bool Sync_t::_internal_remove() const {
+  return _impl_.remove_;
+}
+inline bool Sync_t::remove() const {
+  // @@protoc_insertion_point(field_get:Sync_t.remove)
+  return _internal_remove();
+}
+inline void Sync_t::_internal_set_remove(bool value) {
+  
+  _impl_.remove_ = value;
+}
+inline void Sync_t::set_remove(bool value) {
+  _internal_set_remove(value);
+  // @@protoc_insertion_point(field_set:Sync_t.remove)
+}
+
+// bool sync = 18;
+inline void Sync_t::clear_sync() {
+  _impl_.sync_ = false;
+}
+inline bool Sync_t::_internal_sync() const {
+  return _impl_.sync_;
+}
+inline bool Sync_t::sync() const {
+  // @@protoc_insertion_point(field_get:Sync_t.sync)
+  return _internal_sync();
+}
+inline void Sync_t::_internal_set_sync(bool value) {
+  
+  _impl_.sync_ = value;
+}
+inline void Sync_t::set_sync(bool value) {
+  _internal_set_sync(value);
+  // @@protoc_insertion_point(field_set:Sync_t.sync)
 }
 
 // -------------------------------------------------------------------
@@ -2132,6 +2390,96 @@ inline void Buffer::_internal_set_cotroller(::User_t value) {
 inline void Buffer::set_cotroller(::User_t value) {
   _internal_set_cotroller(value);
   // @@protoc_insertion_point(field_set:Buffer.cotroller)
+}
+
+// .Sync_t sync = 5;
+inline bool Buffer::_internal_has_sync() const {
+  return this != internal_default_instance() && _impl_.sync_ != nullptr;
+}
+inline bool Buffer::has_sync() const {
+  return _internal_has_sync();
+}
+inline void Buffer::clear_sync() {
+  if (GetArenaForAllocation() == nullptr && _impl_.sync_ != nullptr) {
+    delete _impl_.sync_;
+  }
+  _impl_.sync_ = nullptr;
+}
+inline const ::Sync_t& Buffer::_internal_sync() const {
+  const ::Sync_t* p = _impl_.sync_;
+  return p != nullptr ? *p : reinterpret_cast<const ::Sync_t&>(
+      ::_Sync_t_default_instance_);
+}
+inline const ::Sync_t& Buffer::sync() const {
+  // @@protoc_insertion_point(field_get:Buffer.sync)
+  return _internal_sync();
+}
+inline void Buffer::unsafe_arena_set_allocated_sync(
+    ::Sync_t* sync) {
+  if (GetArenaForAllocation() == nullptr) {
+    delete reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(_impl_.sync_);
+  }
+  _impl_.sync_ = sync;
+  if (sync) {
+    
+  } else {
+    
+  }
+  // @@protoc_insertion_point(field_unsafe_arena_set_allocated:Buffer.sync)
+}
+inline ::Sync_t* Buffer::release_sync() {
+  
+  ::Sync_t* temp = _impl_.sync_;
+  _impl_.sync_ = nullptr;
+#ifdef PROTOBUF_FORCE_COPY_IN_RELEASE
+  auto* old =  reinterpret_cast<::PROTOBUF_NAMESPACE_ID::MessageLite*>(temp);
+  temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  if (GetArenaForAllocation() == nullptr) { delete old; }
+#else  // PROTOBUF_FORCE_COPY_IN_RELEASE
+  if (GetArenaForAllocation() != nullptr) {
+    temp = ::PROTOBUF_NAMESPACE_ID::internal::DuplicateIfNonNull(temp);
+  }
+#endif  // !PROTOBUF_FORCE_COPY_IN_RELEASE
+  return temp;
+}
+inline ::Sync_t* Buffer::unsafe_arena_release_sync() {
+  // @@protoc_insertion_point(field_release:Buffer.sync)
+  
+  ::Sync_t* temp = _impl_.sync_;
+  _impl_.sync_ = nullptr;
+  return temp;
+}
+inline ::Sync_t* Buffer::_internal_mutable_sync() {
+  
+  if (_impl_.sync_ == nullptr) {
+    auto* p = CreateMaybeMessage<::Sync_t>(GetArenaForAllocation());
+    _impl_.sync_ = p;
+  }
+  return _impl_.sync_;
+}
+inline ::Sync_t* Buffer::mutable_sync() {
+  ::Sync_t* _msg = _internal_mutable_sync();
+  // @@protoc_insertion_point(field_mutable:Buffer.sync)
+  return _msg;
+}
+inline void Buffer::set_allocated_sync(::Sync_t* sync) {
+  ::PROTOBUF_NAMESPACE_ID::Arena* message_arena = GetArenaForAllocation();
+  if (message_arena == nullptr) {
+    delete _impl_.sync_;
+  }
+  if (sync) {
+    ::PROTOBUF_NAMESPACE_ID::Arena* submessage_arena =
+        ::PROTOBUF_NAMESPACE_ID::Arena::InternalGetOwningArena(sync);
+    if (message_arena != submessage_arena) {
+      sync = ::PROTOBUF_NAMESPACE_ID::internal::GetOwnedMessage(
+          message_arena, sync, submessage_arena);
+    }
+    
+  } else {
+    
+  }
+  _impl_.sync_ = sync;
+  // @@protoc_insertion_point(field_set_allocated:Buffer.sync)
 }
 
 // .Ota_t ota = 16;
@@ -2685,6 +3033,8 @@ inline void Vendor_t::set_status(bool value) {
 #ifdef __GNUC__
   #pragma GCC diagnostic pop
 #endif  // __GNUC__
+// -------------------------------------------------------------------
+
 // -------------------------------------------------------------------
 
 // -------------------------------------------------------------------

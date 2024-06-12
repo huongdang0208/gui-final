@@ -6,22 +6,34 @@ std::queue<Event> eventQueue;
 std::mutex mtx;
 std::condition_variable cv;
 pthread_t hub_screen_thread;
-HubScreen_t hub_screen(DEVICE_NAME);
+extern HubScreen_t hub_screen;
 
 /*push data to queue*/
 void event_handle(const struct mosquitto_message *message){
-    // if(hub_screen.buffer.cotroller() == Hub) {
-    //     eventQueue.push(Event(Event::SyncDeivce, message->topic, hub_screen.buffer));
+    if(hub_screen.buffer.cotroller() == Hub) {
+        if(hub_screen.buffer.sync().add() == true){
+            eventQueue.push(Event(Event::AddDevice, message->topic, hub_screen.buffer));
+        }
+        else if(hub_screen.buffer.sync().remove() == true){
+            eventQueue.push(Event(Event::RemoveDevice, message->topic, hub_screen.buffer));
+        }
+        else if(hub_screen.buffer.sync().sync() == true){
+            eventQueue.push(Event(Event::SyncDeivce, message->topic, hub_screen.buffer));
+        }
+    }
+    else if(hub_screen.buffer.cotroller() != Screen){
+        if(hub_screen.buffer.has_time()){
+            eventQueue.push(Event(Event::SyncTimer, message->topic, hub_screen.buffer));
+        }
+        else {
+            eventQueue.push(Event(Event::StatusDeivce, message->topic, hub_screen.buffer));
+        }
+    }
+
+    // else{
+    //     eventQueue.push(Event(Event::StatusDeivce, message->topic, hub_screen.buffer));
     // }
-    // else if(hub_screen.buffer.cotroller() == Screen){
-    //     if(hub_screen.buffer.has_time()){
-    //         eventQueue.push(Event(Event::SyncTimer, message->topic, hub_screen.buffer));
-    //     }
-    //     else {
-    //         eventQueue.push(Event(Event::StatusDeivce, message->topic, hub_screen.buffer));
-    //     }
-    // }
-    eventQueue.push(Event(Event::SyncDeivce, message->topic, hub_screen.buffer));
+    //eventQueue.push(Event(Event::SyncTimer, message->topic, hub_screen.buffer));
 }
 
 /*push data to queue*/
@@ -29,8 +41,9 @@ void logic_control(std::vector<uint8_t> buff_vec, const struct mosquitto_message
     if (!hub_screen.buffer.ParseFromArray(buff_vec.data(), buff_vec.size())) {
         eventQueue.push(Event(Event::ErrParse, message->topic, hub_screen.buffer));
     }else {
-        if (hub_screen.buffer.receiver() == Server){
+        if (hub_screen.buffer.receiver() == Hub){
             event_handle(message);
+            LOG_INFO("<-- " << message->topic << " : " << hub_screen.buffer.DebugString());
         }
         else {
             eventQueue.push(Event(Event::ErrFormat, message->topic, hub_screen.buffer));
@@ -63,14 +76,28 @@ void* system_intergration(void* arg) {
                 sync_devices(event.buffer);
                 break;
             }
+            case Event::AddDevice: {
+                LOG_INFO("====Add device====");
+                
+                add_device(event.buffer);
+                break;
+            }
+            case Event::RemoveDevice: {
+                LOG_INFO("====Remove device====");
+                
+                remove_device(event.buffer);
+                break;
+            }
             case Event::SyncTimer: {
-                LOG_INFO("====Sync device====");
+                LOG_INFO("====Sync timer====");
 
                 sync_timer(event.buffer);
                 break;
             }
             case Event::StatusDeivce: {
                 LOG_INFO("====Status device====");
+
+                sync_status(event.buffer);
                 break;
             }
             case Event::ControlDevice: {
@@ -87,7 +114,6 @@ void* system_intergration(void* arg) {
 void mqtt_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message) {
     std::lock_guard<std::mutex> lock(mtx);
 
-    LOG_INFO("<-- " << message->topic << " : " << message->payload);
     std::vector<uint8_t> vec_data((const uint8_t *)message->payload, (const uint8_t *)message->payload + message->payloadlen);
     logic_control(vec_data, message);
     
@@ -97,8 +123,10 @@ void mqtt_callback(struct mosquitto *mosq, void *userdata, const struct mosquitt
 
 int main(int argc, char *argv[])
 {
-    int hor_res = 1024;
-    int ver_res = 600;
+    
+
+    int hor_res = 800;
+    int ver_res = 480;
 
     if (argc >= 3)
     {
@@ -157,10 +185,12 @@ int main(int argc, char *argv[])
     ui_init_style(&style);
     init_scr_del_flag(&guider_ui);
     setup_ui(&guider_ui);
+    events_init_hubscreen(&guider_ui);
     if (pthread_create(&hub_screen_thread, NULL, system_intergration, NULL)) {
         perror("Error creating thread");
         return -1;
     }
+
     /*Handle LitlevGL tasks (tickless mode)*/
     while (1)
     {

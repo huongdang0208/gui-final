@@ -36,6 +36,21 @@ struct Led_tDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Led_tDefaultTypeInternal _Led_t_default_instance_;
+PROTOBUF_CONSTEXPR Sync_t::Sync_t(
+    ::_pbi::ConstantInitialized): _impl_{
+    /*decltype(_impl_.add_)*/false
+  , /*decltype(_impl_.remove_)*/false
+  , /*decltype(_impl_.sync_)*/false
+  , /*decltype(_impl_._cached_size_)*/{}} {}
+struct Sync_tDefaultTypeInternal {
+  PROTOBUF_CONSTEXPR Sync_tDefaultTypeInternal()
+      : _instance(::_pbi::ConstantInitialized{}) {}
+  ~Sync_tDefaultTypeInternal() {}
+  union {
+    Sync_t _instance;
+  };
+};
+PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Sync_tDefaultTypeInternal _Sync_t_default_instance_;
 PROTOBUF_CONSTEXPR Sw_t::Sw_t(
     ::_pbi::ConstantInitialized): _impl_{
     /*decltype(_impl_.name_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
@@ -101,6 +116,7 @@ PROTOBUF_CONSTEXPR Buffer::Buffer(
     /*decltype(_impl_.led_)*/{}
   , /*decltype(_impl_.sw_)*/{}
   , /*decltype(_impl_.mac_hub_)*/{&::_pbi::fixed_address_empty_string, ::_pbi::ConstantInitialized{}}
+  , /*decltype(_impl_.sync_)*/nullptr
   , /*decltype(_impl_.ota_)*/nullptr
   , /*decltype(_impl_.vpn_)*/nullptr
   , /*decltype(_impl_.time_)*/nullptr
@@ -146,7 +162,7 @@ struct Vendor_tDefaultTypeInternal {
   };
 };
 PROTOBUF_ATTRIBUTE_NO_DESTROY PROTOBUF_CONSTINIT PROTOBUF_ATTRIBUTE_INIT_PRIORITY1 Vendor_tDefaultTypeInternal _Vendor_t_default_instance_;
-static ::_pb::Metadata file_level_metadata_typedef_2eproto[8];
+static ::_pb::Metadata file_level_metadata_typedef_2eproto[9];
 static const ::_pb::EnumDescriptor* file_level_enum_descriptors_typedef_2eproto[1];
 static constexpr ::_pb::ServiceDescriptor const** file_level_service_descriptors_typedef_2eproto = nullptr;
 
@@ -161,6 +177,15 @@ const uint32_t TableStruct_typedef_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::Led_t, _impl_.mac_),
   PROTOBUF_FIELD_OFFSET(::Led_t, _impl_.ep_),
   PROTOBUF_FIELD_OFFSET(::Led_t, _impl_.status_),
+  ~0u,  // no _has_bits_
+  PROTOBUF_FIELD_OFFSET(::Sync_t, _internal_metadata_),
+  ~0u,  // no _extensions_
+  ~0u,  // no _oneof_case_
+  ~0u,  // no _weak_field_map_
+  ~0u,  // no _inlined_string_donated_
+  PROTOBUF_FIELD_OFFSET(::Sync_t, _impl_.add_),
+  PROTOBUF_FIELD_OFFSET(::Sync_t, _impl_.remove_),
+  PROTOBUF_FIELD_OFFSET(::Sync_t, _impl_.sync_),
   ~0u,  // no _has_bits_
   PROTOBUF_FIELD_OFFSET(::Sw_t, _internal_metadata_),
   ~0u,  // no _extensions_
@@ -207,6 +232,7 @@ const uint32_t TableStruct_typedef_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.sender_),
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.receiver_),
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.cotroller_),
+  PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.sync_),
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.ota_),
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.vpn_),
   PROTOBUF_FIELD_OFFSET(::Buffer, _impl_.led_),
@@ -232,17 +258,19 @@ const uint32_t TableStruct_typedef_2eproto::offsets[] PROTOBUF_SECTION_VARIABLE(
 };
 static const ::_pbi::MigrationSchema schemas[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) = {
   { 0, -1, -1, sizeof(::Led_t)},
-  { 10, -1, -1, sizeof(::Sw_t)},
-  { 20, -1, -1, sizeof(::Ota_t)},
-  { 29, -1, -1, sizeof(::KeepAlive_t)},
-  { 36, -1, -1, sizeof(::Timer_t)},
-  { 46, -1, -1, sizeof(::Buffer)},
-  { 61, -1, -1, sizeof(::Vpn_t)},
-  { 69, -1, -1, sizeof(::Vendor_t)},
+  { 10, -1, -1, sizeof(::Sync_t)},
+  { 19, -1, -1, sizeof(::Sw_t)},
+  { 29, -1, -1, sizeof(::Ota_t)},
+  { 38, -1, -1, sizeof(::KeepAlive_t)},
+  { 45, -1, -1, sizeof(::Timer_t)},
+  { 55, -1, -1, sizeof(::Buffer)},
+  { 71, -1, -1, sizeof(::Vpn_t)},
+  { 79, -1, -1, sizeof(::Vendor_t)},
 };
 
 static const ::_pb::Message* const file_default_instances[] = {
   &::_Led_t_default_instance_._instance,
+  &::_Sync_t_default_instance_._instance,
   &::_Sw_t_default_instance_._instance,
   &::_Ota_t_default_instance_._instance,
   &::_KeepAlive_t_default_instance_._instance,
@@ -255,29 +283,31 @@ static const ::_pb::Message* const file_default_instances[] = {
 const char descriptor_table_protodef_typedef_2eproto[] PROTOBUF_SECTION_VARIABLE(protodesc_cold) =
   "\n\rtypedef.proto\">\n\005Led_t\022\014\n\004name\030\020 \001(\t\022\013"
   "\n\003mac\030\021 \001(\004\022\n\n\002ep\030\022 \001(\r\022\016\n\006status\030\023 \001(\010\""
-  "=\n\004Sw_t\022\014\n\004name\030\020 \001(\t\022\n\n\002ep\030\021 \001(\r\022\013\n\003mac"
-  "\030\022 \001(\004\022\016\n\006status\030\023 \001(\010\"7\n\005Ota_t\022\021\n\tcheck"
-  "_ota\030\020 \001(\010\022\016\n\006status\030\021 \001(\010\022\013\n\003ack\030\022 \001(\010\""
-  "&\n\013KeepAlive_t\022\027\n\006sender\030\001 \001(\0162\007.User_t\""
-  "C\n\007Timer_t\022\013\n\003day\030\017 \001(\r\022\r\n\005month\030\020 \001(\r\022\014"
-  "\n\004hour\030\021 \001(\r\022\016\n\006minute\030\022 \001(\r\"\323\001\n\006Buffer\022"
-  "\017\n\007mac_hub\030\001 \001(\t\022\027\n\006sender\030\002 \001(\0162\007.User_"
-  "t\022\031\n\010receiver\030\003 \001(\0162\007.User_t\022\032\n\tcotrolle"
-  "r\030\004 \001(\0162\007.User_t\022\023\n\003ota\030\020 \001(\0132\006.Ota_t\022\023\n"
-  "\003vpn\030\021 \001(\0132\006.Vpn_t\022\023\n\003led\030\022 \003(\0132\006.Led_t\022"
-  "\021\n\002sw\030\023 \003(\0132\005.Sw_t\022\026\n\004time\030\024 \001(\0132\010.Timer"
-  "_t\"$\n\005Vpn_t\022\016\n\006status\030\001 \001(\010\022\013\n\003mac\030\002 \001(\t"
-  "\"9\n\010Vendor_t\022\017\n\007mac_ven\030\001 \001(\t\022\014\n\004data\030\002 "
-  "\001(\t\022\016\n\006status\030\003 \001(\010*b\n\006User_t\022\007\n\003App\020\000\022\n"
-  "\n\006Server\020\001\022\007\n\003Hub\020\002\022\n\n\006Zigbee\020\003\022\007\n\003Ble\020\004"
-  "\022\006\n\002Ai\020\005\022\010\n\004Wifi\020\006\022\n\n\006Screen\020\007\022\007\n\003Ota\020\010b"
-  "\006proto3"
+  "3\n\006Sync_t\022\013\n\003add\030\020 \001(\010\022\016\n\006remove\030\021 \001(\010\022\014"
+  "\n\004sync\030\022 \001(\010\"=\n\004Sw_t\022\014\n\004name\030\020 \001(\t\022\n\n\002ep"
+  "\030\021 \001(\r\022\013\n\003mac\030\022 \001(\004\022\016\n\006status\030\023 \001(\010\"7\n\005O"
+  "ta_t\022\021\n\tcheck_ota\030\020 \001(\010\022\016\n\006status\030\021 \001(\010\022"
+  "\013\n\003ack\030\022 \001(\010\"&\n\013KeepAlive_t\022\027\n\006sender\030\001 "
+  "\001(\0162\007.User_t\"C\n\007Timer_t\022\013\n\003day\030\017 \001(\r\022\r\n\005"
+  "month\030\020 \001(\r\022\014\n\004hour\030\021 \001(\r\022\016\n\006minute\030\022 \001("
+  "\r\"\352\001\n\006Buffer\022\017\n\007mac_hub\030\001 \001(\t\022\027\n\006sender\030"
+  "\002 \001(\0162\007.User_t\022\031\n\010receiver\030\003 \001(\0162\007.User_"
+  "t\022\032\n\tcotroller\030\004 \001(\0162\007.User_t\022\025\n\004sync\030\005 "
+  "\001(\0132\007.Sync_t\022\023\n\003ota\030\020 \001(\0132\006.Ota_t\022\023\n\003vpn"
+  "\030\021 \001(\0132\006.Vpn_t\022\023\n\003led\030\022 \003(\0132\006.Led_t\022\021\n\002s"
+  "w\030\023 \003(\0132\005.Sw_t\022\026\n\004time\030\024 \001(\0132\010.Timer_t\"$"
+  "\n\005Vpn_t\022\016\n\006status\030\001 \001(\010\022\013\n\003mac\030\002 \001(\t\"9\n\010"
+  "Vendor_t\022\017\n\007mac_ven\030\001 \001(\t\022\014\n\004data\030\002 \001(\t\022"
+  "\016\n\006status\030\003 \001(\010*b\n\006User_t\022\007\n\003App\020\000\022\n\n\006Se"
+  "rver\020\001\022\007\n\003Hub\020\002\022\n\n\006Zigbee\020\003\022\007\n\003Ble\020\004\022\006\n\002"
+  "Ai\020\005\022\010\n\004Wifi\020\006\022\n\n\006Screen\020\007\022\007\n\003Ota\020\010b\006pro"
+  "to3"
   ;
 static ::_pbi::once_flag descriptor_table_typedef_2eproto_once;
 const ::_pbi::DescriptorTable descriptor_table_typedef_2eproto = {
-    false, false, 727, descriptor_table_protodef_typedef_2eproto,
+    false, false, 803, descriptor_table_protodef_typedef_2eproto,
     "typedef.proto",
-    &descriptor_table_typedef_2eproto_once, nullptr, 0, 8,
+    &descriptor_table_typedef_2eproto_once, nullptr, 0, 9,
     schemas, file_default_instances, TableStruct_typedef_2eproto::offsets,
     file_level_metadata_typedef_2eproto, file_level_enum_descriptors_typedef_2eproto,
     file_level_service_descriptors_typedef_2eproto,
@@ -603,6 +633,241 @@ void Led_t::InternalSwap(Led_t* other) {
 
 // ===================================================================
 
+class Sync_t::_Internal {
+ public:
+};
+
+Sync_t::Sync_t(::PROTOBUF_NAMESPACE_ID::Arena* arena,
+                         bool is_message_owned)
+  : ::PROTOBUF_NAMESPACE_ID::Message(arena, is_message_owned) {
+  SharedCtor(arena, is_message_owned);
+  // @@protoc_insertion_point(arena_constructor:Sync_t)
+}
+Sync_t::Sync_t(const Sync_t& from)
+  : ::PROTOBUF_NAMESPACE_ID::Message() {
+  Sync_t* const _this = this; (void)_this;
+  new (&_impl_) Impl_{
+      decltype(_impl_.add_){}
+    , decltype(_impl_.remove_){}
+    , decltype(_impl_.sync_){}
+    , /*decltype(_impl_._cached_size_)*/{}};
+
+  _internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+  ::memcpy(&_impl_.add_, &from._impl_.add_,
+    static_cast<size_t>(reinterpret_cast<char*>(&_impl_.sync_) -
+    reinterpret_cast<char*>(&_impl_.add_)) + sizeof(_impl_.sync_));
+  // @@protoc_insertion_point(copy_constructor:Sync_t)
+}
+
+inline void Sync_t::SharedCtor(
+    ::_pb::Arena* arena, bool is_message_owned) {
+  (void)arena;
+  (void)is_message_owned;
+  new (&_impl_) Impl_{
+      decltype(_impl_.add_){false}
+    , decltype(_impl_.remove_){false}
+    , decltype(_impl_.sync_){false}
+    , /*decltype(_impl_._cached_size_)*/{}
+  };
+}
+
+Sync_t::~Sync_t() {
+  // @@protoc_insertion_point(destructor:Sync_t)
+  if (auto *arena = _internal_metadata_.DeleteReturnArena<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>()) {
+  (void)arena;
+    return;
+  }
+  SharedDtor();
+}
+
+inline void Sync_t::SharedDtor() {
+  GOOGLE_DCHECK(GetArenaForAllocation() == nullptr);
+}
+
+void Sync_t::SetCachedSize(int size) const {
+  _impl_._cached_size_.Set(size);
+}
+
+void Sync_t::Clear() {
+// @@protoc_insertion_point(message_clear_start:Sync_t)
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  ::memset(&_impl_.add_, 0, static_cast<size_t>(
+      reinterpret_cast<char*>(&_impl_.sync_) -
+      reinterpret_cast<char*>(&_impl_.add_)) + sizeof(_impl_.sync_));
+  _internal_metadata_.Clear<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>();
+}
+
+const char* Sync_t::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
+#define CHK_(x) if (PROTOBUF_PREDICT_FALSE(!(x))) goto failure
+  while (!ctx->Done(&ptr)) {
+    uint32_t tag;
+    ptr = ::_pbi::ReadTag(ptr, &tag);
+    switch (tag >> 3) {
+      // bool add = 16;
+      case 16:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 128)) {
+          _impl_.add_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool remove = 17;
+      case 17:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 136)) {
+          _impl_.remove_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      // bool sync = 18;
+      case 18:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 144)) {
+          _impl_.sync_ = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
+          CHK_(ptr);
+        } else
+          goto handle_unusual;
+        continue;
+      default:
+        goto handle_unusual;
+    }  // switch
+  handle_unusual:
+    if ((tag == 0) || ((tag & 7) == 4)) {
+      CHK_(ptr);
+      ctx->SetLastTag(tag);
+      goto message_done;
+    }
+    ptr = UnknownFieldParse(
+        tag,
+        _internal_metadata_.mutable_unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(),
+        ptr, ctx);
+    CHK_(ptr != nullptr);
+  }  // while
+message_done:
+  return ptr;
+failure:
+  ptr = nullptr;
+  goto message_done;
+#undef CHK_
+}
+
+uint8_t* Sync_t::_InternalSerialize(
+    uint8_t* target, ::PROTOBUF_NAMESPACE_ID::io::EpsCopyOutputStream* stream) const {
+  // @@protoc_insertion_point(serialize_to_array_start:Sync_t)
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  // bool add = 16;
+  if (this->_internal_add() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(16, this->_internal_add(), target);
+  }
+
+  // bool remove = 17;
+  if (this->_internal_remove() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(17, this->_internal_remove(), target);
+  }
+
+  // bool sync = 18;
+  if (this->_internal_sync() != 0) {
+    target = stream->EnsureSpace(target);
+    target = ::_pbi::WireFormatLite::WriteBoolToArray(18, this->_internal_sync(), target);
+  }
+
+  if (PROTOBUF_PREDICT_FALSE(_internal_metadata_.have_unknown_fields())) {
+    target = ::_pbi::WireFormat::InternalSerializeUnknownFieldsToArray(
+        _internal_metadata_.unknown_fields<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(::PROTOBUF_NAMESPACE_ID::UnknownFieldSet::default_instance), target, stream);
+  }
+  // @@protoc_insertion_point(serialize_to_array_end:Sync_t)
+  return target;
+}
+
+size_t Sync_t::ByteSizeLong() const {
+// @@protoc_insertion_point(message_byte_size_start:Sync_t)
+  size_t total_size = 0;
+
+  uint32_t cached_has_bits = 0;
+  // Prevent compiler warnings about cached_has_bits being unused
+  (void) cached_has_bits;
+
+  // bool add = 16;
+  if (this->_internal_add() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool remove = 17;
+  if (this->_internal_remove() != 0) {
+    total_size += 2 + 1;
+  }
+
+  // bool sync = 18;
+  if (this->_internal_sync() != 0) {
+    total_size += 2 + 1;
+  }
+
+  return MaybeComputeUnknownFieldsSize(total_size, &_impl_._cached_size_);
+}
+
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData Sync_t::_class_data_ = {
+    ::PROTOBUF_NAMESPACE_ID::Message::CopyWithSourceCheck,
+    Sync_t::MergeImpl
+};
+const ::PROTOBUF_NAMESPACE_ID::Message::ClassData*Sync_t::GetClassData() const { return &_class_data_; }
+
+
+void Sync_t::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBUF_NAMESPACE_ID::Message& from_msg) {
+  auto* const _this = static_cast<Sync_t*>(&to_msg);
+  auto& from = static_cast<const Sync_t&>(from_msg);
+  // @@protoc_insertion_point(class_specific_merge_from_start:Sync_t)
+  GOOGLE_DCHECK_NE(&from, _this);
+  uint32_t cached_has_bits = 0;
+  (void) cached_has_bits;
+
+  if (from._internal_add() != 0) {
+    _this->_internal_set_add(from._internal_add());
+  }
+  if (from._internal_remove() != 0) {
+    _this->_internal_set_remove(from._internal_remove());
+  }
+  if (from._internal_sync() != 0) {
+    _this->_internal_set_sync(from._internal_sync());
+  }
+  _this->_internal_metadata_.MergeFrom<::PROTOBUF_NAMESPACE_ID::UnknownFieldSet>(from._internal_metadata_);
+}
+
+void Sync_t::CopyFrom(const Sync_t& from) {
+// @@protoc_insertion_point(class_specific_copy_from_start:Sync_t)
+  if (&from == this) return;
+  Clear();
+  MergeFrom(from);
+}
+
+bool Sync_t::IsInitialized() const {
+  return true;
+}
+
+void Sync_t::InternalSwap(Sync_t* other) {
+  using std::swap;
+  _internal_metadata_.InternalSwap(&other->_internal_metadata_);
+  ::PROTOBUF_NAMESPACE_ID::internal::memswap<
+      PROTOBUF_FIELD_OFFSET(Sync_t, _impl_.sync_)
+      + sizeof(Sync_t::_impl_.sync_)
+      - PROTOBUF_FIELD_OFFSET(Sync_t, _impl_.add_)>(
+          reinterpret_cast<char*>(&_impl_.add_),
+          reinterpret_cast<char*>(&other->_impl_.add_));
+}
+
+::PROTOBUF_NAMESPACE_ID::Metadata Sync_t::GetMetadata() const {
+  return ::_pbi::AssignDescriptors(
+      &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
+      file_level_metadata_typedef_2eproto[1]);
+}
+
+// ===================================================================
+
 class Sw_t::_Internal {
  public:
 };
@@ -889,7 +1154,7 @@ void Sw_t::InternalSwap(Sw_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Sw_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[1]);
+      file_level_metadata_typedef_2eproto[2]);
 }
 
 // ===================================================================
@@ -1124,7 +1389,7 @@ void Ota_t::InternalSwap(Ota_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Ota_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[2]);
+      file_level_metadata_typedef_2eproto[3]);
 }
 
 // ===================================================================
@@ -1305,7 +1570,7 @@ void KeepAlive_t::InternalSwap(KeepAlive_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata KeepAlive_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[3]);
+      file_level_metadata_typedef_2eproto[4]);
 }
 
 // ===================================================================
@@ -1570,18 +1835,23 @@ void Timer_t::InternalSwap(Timer_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Timer_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[4]);
+      file_level_metadata_typedef_2eproto[5]);
 }
 
 // ===================================================================
 
 class Buffer::_Internal {
  public:
+  static const ::Sync_t& sync(const Buffer* msg);
   static const ::Ota_t& ota(const Buffer* msg);
   static const ::Vpn_t& vpn(const Buffer* msg);
   static const ::Timer_t& time(const Buffer* msg);
 };
 
+const ::Sync_t&
+Buffer::_Internal::sync(const Buffer* msg) {
+  return *msg->_impl_.sync_;
+}
 const ::Ota_t&
 Buffer::_Internal::ota(const Buffer* msg) {
   return *msg->_impl_.ota_;
@@ -1607,6 +1877,7 @@ Buffer::Buffer(const Buffer& from)
       decltype(_impl_.led_){from._impl_.led_}
     , decltype(_impl_.sw_){from._impl_.sw_}
     , decltype(_impl_.mac_hub_){}
+    , decltype(_impl_.sync_){nullptr}
     , decltype(_impl_.ota_){nullptr}
     , decltype(_impl_.vpn_){nullptr}
     , decltype(_impl_.time_){nullptr}
@@ -1623,6 +1894,9 @@ Buffer::Buffer(const Buffer& from)
   if (!from._internal_mac_hub().empty()) {
     _this->_impl_.mac_hub_.Set(from._internal_mac_hub(), 
       _this->GetArenaForAllocation());
+  }
+  if (from._internal_has_sync()) {
+    _this->_impl_.sync_ = new ::Sync_t(*from._impl_.sync_);
   }
   if (from._internal_has_ota()) {
     _this->_impl_.ota_ = new ::Ota_t(*from._impl_.ota_);
@@ -1647,6 +1921,7 @@ inline void Buffer::SharedCtor(
       decltype(_impl_.led_){arena}
     , decltype(_impl_.sw_){arena}
     , decltype(_impl_.mac_hub_){}
+    , decltype(_impl_.sync_){nullptr}
     , decltype(_impl_.ota_){nullptr}
     , decltype(_impl_.vpn_){nullptr}
     , decltype(_impl_.time_){nullptr}
@@ -1675,6 +1950,7 @@ inline void Buffer::SharedDtor() {
   _impl_.led_.~RepeatedPtrField();
   _impl_.sw_.~RepeatedPtrField();
   _impl_.mac_hub_.Destroy();
+  if (this != internal_default_instance()) delete _impl_.sync_;
   if (this != internal_default_instance()) delete _impl_.ota_;
   if (this != internal_default_instance()) delete _impl_.vpn_;
   if (this != internal_default_instance()) delete _impl_.time_;
@@ -1693,6 +1969,10 @@ void Buffer::Clear() {
   _impl_.led_.Clear();
   _impl_.sw_.Clear();
   _impl_.mac_hub_.ClearToEmpty();
+  if (GetArenaForAllocation() == nullptr && _impl_.sync_ != nullptr) {
+    delete _impl_.sync_;
+  }
+  _impl_.sync_ = nullptr;
   if (GetArenaForAllocation() == nullptr && _impl_.ota_ != nullptr) {
     delete _impl_.ota_;
   }
@@ -1751,6 +2031,14 @@ const char* Buffer::_InternalParse(const char* ptr, ::_pbi::ParseContext* ctx) {
           uint64_t val = ::PROTOBUF_NAMESPACE_ID::internal::ReadVarint64(&ptr);
           CHK_(ptr);
           _internal_set_cotroller(static_cast<::User_t>(val));
+        } else
+          goto handle_unusual;
+        continue;
+      // .Sync_t sync = 5;
+      case 5:
+        if (PROTOBUF_PREDICT_TRUE(static_cast<uint8_t>(tag) == 42)) {
+          ptr = ctx->ParseMessage(_internal_mutable_sync(), ptr);
+          CHK_(ptr);
         } else
           goto handle_unusual;
         continue;
@@ -1864,6 +2152,13 @@ uint8_t* Buffer::_InternalSerialize(
       4, this->_internal_cotroller(), target);
   }
 
+  // .Sync_t sync = 5;
+  if (this->_internal_has_sync()) {
+    target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
+      InternalWriteMessage(5, _Internal::sync(this),
+        _Internal::sync(this).GetCachedSize(), target, stream);
+  }
+
   // .Ota_t ota = 16;
   if (this->_internal_has_ota()) {
     target = ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::
@@ -1938,6 +2233,13 @@ size_t Buffer::ByteSizeLong() const {
         this->_internal_mac_hub());
   }
 
+  // .Sync_t sync = 5;
+  if (this->_internal_has_sync()) {
+    total_size += 1 +
+      ::PROTOBUF_NAMESPACE_ID::internal::WireFormatLite::MessageSize(
+        *_impl_.sync_);
+  }
+
   // .Ota_t ota = 16;
   if (this->_internal_has_ota()) {
     total_size += 2 +
@@ -2000,6 +2302,10 @@ void Buffer::MergeImpl(::PROTOBUF_NAMESPACE_ID::Message& to_msg, const ::PROTOBU
   if (!from._internal_mac_hub().empty()) {
     _this->_internal_set_mac_hub(from._internal_mac_hub());
   }
+  if (from._internal_has_sync()) {
+    _this->_internal_mutable_sync()->::Sync_t::MergeFrom(
+        from._internal_sync());
+  }
   if (from._internal_has_ota()) {
     _this->_internal_mutable_ota()->::Ota_t::MergeFrom(
         from._internal_ota());
@@ -2049,15 +2355,15 @@ void Buffer::InternalSwap(Buffer* other) {
   ::PROTOBUF_NAMESPACE_ID::internal::memswap<
       PROTOBUF_FIELD_OFFSET(Buffer, _impl_.cotroller_)
       + sizeof(Buffer::_impl_.cotroller_)
-      - PROTOBUF_FIELD_OFFSET(Buffer, _impl_.ota_)>(
-          reinterpret_cast<char*>(&_impl_.ota_),
-          reinterpret_cast<char*>(&other->_impl_.ota_));
+      - PROTOBUF_FIELD_OFFSET(Buffer, _impl_.sync_)>(
+          reinterpret_cast<char*>(&_impl_.sync_),
+          reinterpret_cast<char*>(&other->_impl_.sync_));
 }
 
 ::PROTOBUF_NAMESPACE_ID::Metadata Buffer::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[5]);
+      file_level_metadata_typedef_2eproto[6]);
 }
 
 // ===================================================================
@@ -2287,7 +2593,7 @@ void Vpn_t::InternalSwap(Vpn_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Vpn_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[6]);
+      file_level_metadata_typedef_2eproto[7]);
 }
 
 // ===================================================================
@@ -2567,7 +2873,7 @@ void Vendor_t::InternalSwap(Vendor_t* other) {
 ::PROTOBUF_NAMESPACE_ID::Metadata Vendor_t::GetMetadata() const {
   return ::_pbi::AssignDescriptors(
       &descriptor_table_typedef_2eproto_getter, &descriptor_table_typedef_2eproto_once,
-      file_level_metadata_typedef_2eproto[7]);
+      file_level_metadata_typedef_2eproto[8]);
 }
 
 // @@protoc_insertion_point(namespace_scope)
@@ -2575,6 +2881,10 @@ PROTOBUF_NAMESPACE_OPEN
 template<> PROTOBUF_NOINLINE ::Led_t*
 Arena::CreateMaybeMessage< ::Led_t >(Arena* arena) {
   return Arena::CreateMessageInternal< ::Led_t >(arena);
+}
+template<> PROTOBUF_NOINLINE ::Sync_t*
+Arena::CreateMaybeMessage< ::Sync_t >(Arena* arena) {
+  return Arena::CreateMessageInternal< ::Sync_t >(arena);
 }
 template<> PROTOBUF_NOINLINE ::Sw_t*
 Arena::CreateMaybeMessage< ::Sw_t >(Arena* arena) {

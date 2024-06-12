@@ -8,6 +8,12 @@ message Led_t{
     bool status = 19;
 }
 
+message Sync_t {
+    bool add = 16;
+    bool remove = 17;
+    bool sync = 18;
+}
+
 message Sw_t{
     string name = 16;
     uint32 ep = 17;
@@ -49,8 +55,8 @@ message Buffer {
     string mac_hub = 1;
     User_t sender = 2; // người gửi
     User_t receiver = 3; // người nhận
-    User_t cotroller = 4; // người thực hiện 
-
+    User_t cotroller = 4; // người thực hiện
+    Sync_t sync = 5;
     Ota_t ota = 16;
     Vpn_t vpn = 17;
     repeated Led_t led = 18;
